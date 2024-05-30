@@ -1,17 +1,19 @@
-#calc{
+#calc {
     text-align: center;
-    
 }
-body{
+
+body {
     background: rgb(223, 219, 219);
 }
-#calculate{
+
+#calculate {
     font-size: 40px;
     color: rgb(85, 82, 82);
     font-style: oblique;
-    opacity:  0.7;
+    opacity: 0.7;
 }
-#grid-container{
+
+#grid-container {
     gap: 5px;
     width: 250px;
     border-radius: 5px;
@@ -21,7 +23,7 @@ body{
     grid-auto-rows: 55px;
     background-color: gray;
     padding: 5px;
-    grid-template-areas: 
+    grid-template-areas:
         "result result result result"
         "ac divide multiple minus"
         "d7 d8 d9 plus"
@@ -31,91 +33,118 @@ body{
     ;
 
 }
-.red{
+
+.red {
     background: rgb(233, 7, 25);
     color: rgba(255, 255, 255, 0.834)
 }
-.red:hover{
+
+.red:hover {
     background: rgb(240, 72, 72);
 }
-.orange{
+
+.orange {
     background: orange;
     color: rgba(255, 255, 255, 0.834);
 }
-.orange:hover{
+
+.orange:hover {
     background: rgb(240, 176, 58);
 }
-#grid-container>*{
+
+#grid-container>* {
     border-radius: 5px;
     border-inline: 1px;
     font-size: 25px;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
-#result{
+
+#result {
     grid-area: result;
     padding: 10px;
     font-size: 25px;
-    direction: rtl;
+    text-align: right;
+    background: white;
 
 }
-.ac{
+
+.ac {
     grid-area: ac;
 
 }
-.divide{
+
+.divide {
     grid-area: divide;
 }
-.multiple{
+
+.multiple {
     grid-area: multiple;
 }
-.minus{
+
+.minus {
     grid-area: minus;
 }
-.d7{
+
+.d7 {
     grid-area: d7;
 }
-.d8{
+
+.d8 {
     grid-area: d8;
 }
-.d9{
+
+.d9 {
     grid-area: d9;
 }
-.plus{
+
+.plus {
     grid-area: plus;
 }
-.d4{
+
+.d4 {
     grid-area: d4;
 }
-.d5{
+
+.d5 {
     grid-area: d5;
 }
-.d6{
+
+.d6 {
     grid-area: d6;
 }
-.plus{
+
+.plus {
     grid-area: plus;
 }
-.d1{
+
+.d1 {
     grid-area: d1;
 }
-.d2{
+
+.d2 {
     grid-area: d2;
 }
-.d3{
+
+.d3 {
     grid-area: d3;
 }
-.equal{
+
+.equal {
     grid-area: equal;
 }
-.d0{
+
+.d0 {
     grid-area: d0;
 }
-.d0{
+
+.d0 {
     grid-area: d0;
 }
-.point{
+
+.point {
     grid-area: point;
 }
-.equal{
+
+.equal {
     grid-area: equal;
 }

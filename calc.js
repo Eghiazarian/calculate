@@ -1,54 +1,72 @@
-let result = document.getElementById('result')
+let resultHtml = document.getElementById('result')
 let buttons = document.getElementsByTagName('button')
 
-for (let button of buttons) {
-    button.onclick = (event) => {
+const operators = [
+    '+', '-', '/', '*',
+]
 
-        if (result.value == 0) {
-            result.value = ''
-        }
+const operands = [
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'
+]
 
-        if (event.target.innerText == '=') {
+let result = 0;
 
-            result.value = eval(result.value)
-            return
-        }
-
-        result.value += event.target.innerText
-
-        if (event.target.innerText == 'AC') {
-            result.value = 0
-        }
-    }
+function render() {
+    resultHtml.innerText = result
 }
-window.onkeyup = (event) => {
-    if (result.value == 0) {
-        result.value = ''
-    }
-        
-    let list = [
-        '1', '2', '3',
-        '4', '5', '6',
-        '7', '8', '9',
-        '0', '+', '-',
-        '/', '*', '.']
 
-    for (i = 0; i < list.length; i++) {
-        if (event.key == list[i]) {
-            let lastChar = result.value[result.value.length - 1]
-            let array = ['+', '-','/', '*', '.']
-            if (array.includes(lastChar) && lastChar == event.key) {
-                return
-            }
-            result.value += list[i]
-            return
-        }
-    }
-    if (event.key == 'Enter') {
-        result.value = eval(result.value)
+function commonActions(event) {
+    result = String(result)
+
+    let input = event.key ?? event.target.innerText
+
+    if ((input == '.')
+        && result.includes('.')) {
         return
     }
-    if (event.key == 'Escape') {
-        result.value = 0
+
+    if (result == "0") {
+        if (input = 0) {
+            result = "0"
+            return
+        }
+
+        if (input == '.') {
+            result += '.'
+            return
+        }
+        result = ""
+    }
+
+
+    if (input == 'Enter' || input == '=') {
+        result = eval(result)
+        render()
+        return
+    }
+
+    if (input == 'Escape' || input == 'AC') {
+        result = 0
+        render()
+        return
+    }
+
+    return true
+}
+
+
+
+for (let button of buttons) {
+
+    button.onclick = (event) => {
+        if (commonActions(event)) {
+            result += event.target.innerText
+            render()
+        }
     }
 }
+
+window.onkeyup = (event) => {
+    commonActions(event);
+}
+render()
