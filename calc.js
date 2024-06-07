@@ -9,44 +9,70 @@ const operands = [
     '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'
 ]
 
-let result = 0;
+let result = "0";
+let input = ''
+let lastInputedData = ''
 
 function render() {
     resultHtml.innerText = result
 }
 
-function commonActions(event) {
-    result = String(result)
+function addToCalcString(input) {
+    input = String(input)
+    lastInputedData = input
+    result += input
+}
 
-    let input = event.key ?? event.target.innerText
-
-    if ((input == '.')
-        && result.includes('.')) {
+function zero() {
+    if (result === "0" && input === '.') {
+        result = "0"
         return
     }
 
-    if (result == "0") {
-        if (input = 0) {
-            result = "0"
-            return
-        }
-
-        if (input == '.') {
-            result += '.'
-            return
-        }
-        result = ""
+    if (result === "0" && ['*', '/'].includes(input)) {
+        result = "0"
+        return
     }
 
+    if (result === "0") {
+        result = ''
+    }
+
+}
+
+function commonActions(event) {
+
+    input = event.key ?? event.target.innerText
+    
+    if (input == '.' && lastInputedData == '.') {
+        return
+    }
+
+    if (operators.includes(lastInputedData) && input == '.') {
+        addToCalcString("0")
+    }
+
+    if (operators.includes(lastInputedData) && operators.includes(input)) {
+        return
+    }
+
+    if (input !== '=') {
+        lastInputedData = input
+    }
 
     if (input == 'Enter' || input == '=') {
-        result = eval(result)
+
+        if (operators.includes(lastInputedData)) {
+            return
+        }
+
+        result = String(eval(result))
         render()
         return
     }
 
     if (input == 'Escape' || input == 'AC') {
-        result = 0
+        result = "0"
         render()
         return
     }
@@ -54,19 +80,17 @@ function commonActions(event) {
     return true
 }
 
-
-
 for (let button of buttons) {
-
     button.onclick = (event) => {
         if (commonActions(event)) {
-            result += event.target.innerText
+            zero()
+            addToCalcString(input)
             render()
         }
     }
 }
 
-window.onkeyup = (event) => {
-    commonActions(event);
-}
+// window.onkeyup = (event) => {
+//     commonActions(event);
+// }
 render()
