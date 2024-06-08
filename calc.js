@@ -48,6 +48,14 @@ function validatePoint() {
     return false
 }
 
+function backspace() {
+    result = result.slice(0, -1)
+
+    if (result == '') {
+        addToCalcString(0)
+    }
+}
+
 function commonActions(event) {
     input = event.key ?? event.target.innerText;
 
@@ -56,6 +64,9 @@ function commonActions(event) {
     }
 
     if (operators.includes(lastInputedData) && operators.includes(input)) {
+        backspace()
+        addToCalcString(input)
+        render()
         return false;
     }
 
@@ -66,12 +77,19 @@ function commonActions(event) {
 
         try {
             result = String(roundResult(eval(result), 10));
-        } catch (e) {
+            // result = String(eval(result));
+        } catch (error) {
             result = "Error";
         }
 
         render();
         return false;
+    }
+
+    if (input === 'Del' || input === "Backspace") {
+        backspace()
+        render()
+        return
     }
 
     if (input === 'Escape' || input === 'AC') {
