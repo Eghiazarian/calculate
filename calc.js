@@ -1,96 +1,112 @@
-let resultHtml = document.getElementById('result')
-let buttons = document.getElementsByTagName('button')
+let resultHtml = document.getElementById('result');
+let buttons = document.getElementsByTagName('button');
 
-const operators = [
-    '+', '-', '/', '*',
-]
-
-const operands = [
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'
-]
+const operators = ['+', '-', '/', '*'];
+const operands = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
 
 let result = "0";
-let input = ''
-let lastInputedData = ''
+let input = '';
+let lastInputedData = '';
 
 function render() {
-    resultHtml.innerText = result
+    resultHtml.innerText = result;
 }
 
 function addToCalcString(input) {
-    input = String(input)
-    lastInputedData = input
-    result += input
+    input = String(input);
+    lastInputedData = input;
+    result += input;
 }
 
 function zero() {
     if (result === "0" && input === '.') {
-        result = "0"
-        return
+        result = "0";
+        return;
     }
 
     if (result === "0" && ['*', '/'].includes(input)) {
-        result = "0"
-        return
+        result = "0";
+        return;
     }
 
     if (result === "0") {
-        result = ''
+        result = '';
     }
+}
 
+function roundResult(value, num) {
+    return Number(Math.round(value + 'e' + num) + 'e-' + num);
+}
+
+function validatePoint() {
+    let partials = result.split(/[\+\-\*\/]/);
+    let lastPart = partials[partials.length - 1];
+
+    if (input === '.' && lastPart.includes('.')) {
+        return true;
+    }
+    return false
 }
 
 function commonActions(event) {
+    input = event.key ?? event.target.innerText;
 
-    input = event.key ?? event.target.innerText
-    
-    if (input == '.' && lastInputedData == '.') {
-        return
-    }
-
-    if (operators.includes(lastInputedData) && input == '.') {
-        addToCalcString("0")
+    if (validatePoint()) {
+        return false
     }
 
     if (operators.includes(lastInputedData) && operators.includes(input)) {
-        return
+        return false;
+    }
+
+    if (input === '=' || input === 'Enter') {
+        if (operators.includes(lastInputedData)) {
+            return false;
+        }
+
+        try {
+            result = String(roundResult(eval(result), 10));
+        } catch (e) {
+            result = "Error";
+        }
+
+        render();
+        return false;
+    }
+
+    if (input === 'Escape' || input === 'AC') {
+        result = "0";
+        render();
+        return false;
+    }
+
+    if (!(operators.includes(input) || operands.includes(input))) {
+        return false
     }
 
     if (input !== '=') {
-        lastInputedData = input
+        lastInputedData = input;
     }
 
-    if (input == 'Enter' || input == '=') {
-
-        if (operators.includes(lastInputedData)) {
-            return
-        }
-
-        result = String(eval(result))
-        render()
-        return
-    }
-
-    if (input == 'Escape' || input == 'AC') {
-        result = "0"
-        render()
-        return
-    }
-
-    return true
+    return true;
 }
 
 for (let button of buttons) {
     button.onclick = (event) => {
         if (commonActions(event)) {
-            zero()
-            addToCalcString(input)
-            render()
+            zero();
+            addToCalcString(input);
+            render();
         }
-    }
+    };
 }
 
-// window.onkeyup = (event) => {
-//     commonActions(event);
-// }
-render()
+window.onkeyup = (event) => {
+    if (commonActions(event)) {
+        zero();
+        addToCalcString(input);
+        render();
+    }
+};
+
+render();
