@@ -14,6 +14,11 @@ function render() {
 
 function addToCalcString(input) {
     input = String(input);
+   
+    if (result === "0" && input === '-') {
+        result = "";
+    }
+    
     lastInputedData = input;
     result += input;
 }

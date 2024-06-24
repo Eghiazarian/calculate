@@ -14,6 +14,7 @@ body {
 }
 
 #grid-container {
+    border: 2px solid rgb(116, 114, 114);
     gap: 5px;
     width: 250px;
     border-radius: 5px;
